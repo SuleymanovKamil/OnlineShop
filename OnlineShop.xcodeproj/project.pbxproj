@@ -72,14 +72,14 @@
 		49E37C0D248031480039A992 /* OnlineShop */ = {
 			isa = PBXGroup;
 			children = (
-				49E37C0E248031480039A992 /* AppDelegate.swift */,
-				49E37C10248031480039A992 /* SceneDelegate.swift */,
 				49E37C2D24805A710039A992 /* Data */,
 				49E37C22248031B80039A992 /* Model */,
 				49E37C23248031CC0039A992 /* View */,
+				49E37C28248037E20039A992 /* Model */,
 				49E37C172480314A0039A992 /* Assets.xcassets */,
 				49E37C192480314A0039A992 /* LaunchScreen.storyboard */,
 				49E37C1C2480314A0039A992 /* Info.plist */,
+				8E7ED83C2484FE7F004E16D2 /* Support files */,
 			);
 			path = OnlineShop;
 			sourceTree = "<group>";
@@ -97,7 +97,6 @@
 			isa = PBXGroup;
 			children = (
 				49E37C14248031480039A992 /* Main.storyboard */,
-				49E37C28248037E20039A992 /* Model */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -111,7 +110,8 @@
 				493E599124826B26001CA5EE /* MainCVCell.swift */,
 				493E599224826B26001CA5EE /* MainCVCell.xib */,
 			);
-			path = Model;
+			name = Model;
+			path = View/Model;
 			sourceTree = "<group>";
 		};
 		49E37C2D24805A710039A992 /* Data */ = {
@@ -121,6 +121,15 @@
 				49E37C2E24805B500039A992 /* Catalog.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		8E7ED83C2484FE7F004E16D2 /* Support files */ = {
+			isa = PBXGroup;
+			children = (
+				49E37C0E248031480039A992 /* AppDelegate.swift */,
+				49E37C10248031480039A992 /* SceneDelegate.swift */,
+			);
+			path = "Support files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

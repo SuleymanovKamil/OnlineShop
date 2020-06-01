@@ -9,10 +9,29 @@
 import UIKit
 
 class MainScreenCollectionReusableView: UICollectionReusableView {
-
+    
+    @IBOutlet weak var location: UILabel!
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        searchBar.delegate = self
     }
     
+}
+extension MainScreenCollectionReusableView: UISearchBarDelegate {
+
+func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+
+    location.text! = "Lol"
+    
+}
+
+func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+
+        location.text = "Lol"
+        
+      
+    }
+
 }
