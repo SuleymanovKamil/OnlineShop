@@ -21,6 +21,8 @@
 		49E37C2A2480590E0039A992 /* Constants .swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E37C292480590E0039A992 /* Constants .swift */; };
 		49E37C2C24805A6C0039A992 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E37C2B24805A6C0039A992 /* Product.swift */; };
 		49E37C2F24805B500039A992 /* Catalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E37C2E24805B500039A992 /* Catalog.swift */; };
+		8E7ED83E2485214B004E16D2 /* Brain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7ED83D2485214B004E16D2 /* Brain.swift */; };
+		8E7ED840248522FE004E16D2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7ED83F248522FE004E16D2 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		49E37C292480590E0039A992 /* Constants .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Constants .swift"; sourceTree = "<group>"; };
 		49E37C2B24805A6C0039A992 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		49E37C2E24805B500039A992 /* Catalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Catalog.swift; sourceTree = "<group>"; };
+		8E7ED83D2485214B004E16D2 /* Brain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brain.swift; sourceTree = "<group>"; };
+		8E7ED83F248522FE004E16D2 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +123,7 @@
 			children = (
 				49E37C2B24805A6C0039A992 /* Product.swift */,
 				49E37C2E24805B500039A992 /* Catalog.swift */,
+				8E7ED83D2485214B004E16D2 /* Brain.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -128,6 +133,7 @@
 			children = (
 				49E37C0E248031480039A992 /* AppDelegate.swift */,
 				49E37C10248031480039A992 /* SceneDelegate.swift */,
+				8E7ED83F248522FE004E16D2 /* Extensions.swift */,
 			);
 			path = "Support files";
 			sourceTree = "<group>";
@@ -210,9 +216,11 @@
 				493E599324826B26001CA5EE /* MainCVCell.swift in Sources */,
 				493E598C24825DED001CA5EE /* MainScreenCollectionView.swift in Sources */,
 				49E37C2C24805A6C0039A992 /* Product.swift in Sources */,
+				8E7ED840248522FE004E16D2 /* Extensions.swift in Sources */,
 				49DD20B92480F4F100545E6B /* SubClassVC.swift in Sources */,
 				49E37C2F24805B500039A992 /* Catalog.swift in Sources */,
 				49E37C0F248031480039A992 /* AppDelegate.swift in Sources */,
+				8E7ED83E2485214B004E16D2 /* Brain.swift in Sources */,
 				49E37C11248031480039A992 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

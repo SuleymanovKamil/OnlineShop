@@ -43,31 +43,16 @@ class MainScreenCollectionView: UICollectionViewController {
 
     //hide navBar while scrolling
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
         let height = scrollView.contentOffset.y
-        print (height)
-        
         if height > 110 {
-            // TODO: add functions for this
-            let searchButton = UIButton(type: .system)
-            searchButton.setImage(UIImage(named: "search"), for: .normal)
-            searchButton.frame = CGRect(x: 0.0, y: 0.0, width: 5, height: 5)
-            let menuBarItem = UIBarButtonItem(customView: searchButton)
-            let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
-            currWidth?.isActive = true
-            let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
-            currHeight?.isActive = true
-            searchButton.contentMode = .scaleAspectFit
-            searchButton.tintColor = .black
-            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: searchButton)
-
-//            navigationItem.title = "Search"
+            navBarButtonsApper ()
         } else if height < 110  {
+            // TODO: add methods for this
             navigationItem.leftBarButtonItem = nil
             
         }
-
-        }
+        
+    }
     
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -101,6 +86,20 @@ extension MainScreenCollectionView: UICollectionViewDelegateFlowLayout {
     //Растояние между объектами по ширине
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
        return 5
+    }
+    
+    func navBarButtonsApper () {
+        let searchButton = UIButton(type: .system)
+        searchButton.setImage(UIImage(named: "search"), for: .normal)
+        searchButton.frame = CGRect(x: 0.0, y: 0.0, width: 5, height: 5)
+        let menuBarItem = UIBarButtonItem(customView: searchButton)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+        currHeight?.isActive = true
+        searchButton.contentMode = .scaleAspectFit
+        searchButton.tintColor = .black
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: searchButton)
     }
 }
 
