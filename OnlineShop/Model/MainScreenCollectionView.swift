@@ -7,17 +7,16 @@
 //
 
 import UIKit
-class MainScreenCollectionView: UICollectionViewController {
 
-    @IBOutlet weak var mainCategories: UICollectionView!
-        let catalog = Catalog()
+class MainScreenCollectionView: UICollectionViewController{
     
-
+    @IBOutlet weak var mainCategories: UICollectionView!
+    let catalog = Catalog()
     override func viewDidLoad() {
-            super.viewDidLoad()
-        mainCategories.register(UINib(nibName: "MainCVCell", bundle: nil), forCellWithReuseIdentifier: Constants.mainScreenCatalogCell)
-        }
-
+        super.viewDidLoad()
+        mainCategories.register(UINib(nibName: "MainCVCell", bundle: nil), forCellWithReuseIdentifier: K.mainScreenCatalogCell)
+     }
+    
    //MARK: - CollectionView methods
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return catalog.mainCategories.count
@@ -28,7 +27,7 @@ class MainScreenCollectionView: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.mainScreenCatalogCell, for: indexPath) as! MainCVCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.mainScreenCatalogCell, for: indexPath) as! MainCVCell
        
         cell.title.text = catalog.mainCategories[indexPath.row].name
         cell.image.image = catalog.mainCategories[indexPath.row].image
@@ -39,7 +38,7 @@ class MainScreenCollectionView: UICollectionViewController {
     }
         
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            performSegue(withIdentifier: "toSubCategory", sender: nil)    }
+        performSegue(withIdentifier: K.toSubCategorySegue, sender: nil)    }
 
     //hide navBar while scrolling
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -49,17 +48,14 @@ class MainScreenCollectionView: UICollectionViewController {
         } else if height < 110  {
             // TODO: add methods for this
             navigationItem.leftBarButtonItem = nil
-            
         }
-        
     }
-    
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let hadder = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! MainScreenCollectionReusableView
+
         return hadder
     }
-  
 }
 //MARK: - Extension for CollectionViewLayout Delegate
 extension MainScreenCollectionView: UICollectionViewDelegateFlowLayout {
@@ -69,10 +65,10 @@ extension MainScreenCollectionView: UICollectionViewDelegateFlowLayout {
         let itemsForRow: CGFloat = 2 //Количество ячеек в ряду
         let offset: CGFloat = 2 //размер отступа
         let paddins = offset * (itemsForRow + 1) //количество отступов
-        let availableWidth = collectionView.frame.width - paddins //  Высчисляем доступную ширину для ячеек в зависимости от рахмера экрана
+        let availableWidth = collectionView.frame.width - paddins //  Высчисляем доступную ширину для ячеек в зависимости от размера экрана
         let width = availableWidth / itemsForRow //Ширина ячейки
         let height = width - (width / 3)
-
+        
         return CGSize(width: width - 20, height: height)
     }
     //Отсутпы
@@ -85,10 +81,11 @@ extension MainScreenCollectionView: UICollectionViewDelegateFlowLayout {
     }
     //Растояние между объектами по ширине
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-       return 5
+        return 5
     }
     
     func navBarButtonsApper () {
+        
         let searchButton = UIButton(type: .system)
         searchButton.setImage(UIImage(named: "search"), for: .normal)
         searchButton.frame = CGRect(x: 0.0, y: 0.0, width: 5, height: 5)
@@ -102,6 +99,5 @@ extension MainScreenCollectionView: UICollectionViewDelegateFlowLayout {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: searchButton)
     }
 }
-
 
 

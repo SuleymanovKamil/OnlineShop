@@ -7,15 +7,18 @@
 //
 
 import UIKit
+import CoreLocation
+import MapKit
 
 class MainScreenCollectionReusableView: UICollectionReusableView {
-    
+
     @IBOutlet weak var location: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
+    var locationManager: CLLocationManager!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        searchBar.delegate = self
+     
     }
     
 }
@@ -35,3 +38,4 @@ func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     }
 
 }
+
