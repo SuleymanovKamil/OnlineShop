@@ -2,55 +2,66 @@
 //  SubClassVC.swift
 //  OnlineShop
 //
-//  Created by Камиль on 29.05.2020.
+//  Created by Камиль on 08.06.2020.
 //  Copyright © 2020 Kamil. All rights reserved.
 //
 
 import UIKit
 
-class SubClassVC: UIViewController {
-//
-//    @IBOutlet weak var CatalogCV: UICollectionView!
-//    let categories = Catalog()
-//    let countCells = 2
-//    let offset: CGFloat = 5 //размер отступа
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//       CatalogCV.register(UINib(nibName: "CategotyCViewCell", bundle: nil), forCellWithReuseIdentifier: Constants.mainScreenCatalogCell)
-//    }
-//
-//}
-//
-//extension SubClassVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return categories.categories.count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.mainScreenCatalogCell, for: indexPath) as! CategotyCViewCell
-//        cell.cellLabel.text = categories.categories[0].name
-//        cell.image.image = categories.categories[0].image
-//        return cell
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let frameVC = collectionView.frame
-//
-//        let widthCell = frameVC.width / CGFloat(countCells)
-//        let heightCell = widthCell
-//
-//        let spacing = CGFloat((countCells + 1)) * offset / CGFloat(countCells)
-//
-//        return CGSize(width: widthCell - spacing, height: heightCell - (offset * 2))
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        performSegue(withIdentifier: "toSubCategory", sender: nil)    }
-//
-////    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-////        <#code#>
-////    }
-}
+class SubClassVC: UITableViewController {
+    //MARK: - Vars
+    var category:Category?
+    var itemArray: [Item] = []
+    
+    
+    //MARK: View Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.title = category?.name
+        tableView.register(UINib(nibName: "SubCell", bundle: nil), forCellReuseIdentifier: K.subCell)
+        tableView.rowHeight = 100
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if category != nil {
+            loadItems()
+        }
+    }
+    // MARK: - Table view data source
 
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return itemArray.count
+    }
+
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.subCell, for: indexPath) as! SubCell
+        
+        cell.generateCell(itemArray[indexPath.row])
+        return cell
+    }
+    
+ 
+    // MARK: - Navigation
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == K.Segues.toAddItemSegue{
+        let vc = segue.destination as! AddItemViewController
+        vc.category = category
+        }
+    }
+    
+    
+    //MARK: Load Items
+    private func loadItems() {
+        downloadItemsFromFirebase(category!.id) { (allItems) in
+            self.itemArray = allItems
+            self.tableView.reloadData()
+        }
+    }
+}

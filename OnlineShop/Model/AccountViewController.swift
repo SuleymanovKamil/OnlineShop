@@ -14,20 +14,25 @@ class AccountViewController: UIViewController {
     @IBOutlet weak var authOutlet: UIButton!
     @IBOutlet weak var exitOutlet: UIButton!
     
+    
+    
     @IBAction func authTapped() {
-        self.performSegue(withIdentifier: K.segueToPhoneVC , sender: self)
+        self.performSegue(withIdentifier: K.Segues.segueToPhoneVCSegue , sender: self)
       }
     override func viewDidLoad() {
         super.viewDidLoad()
-
-
+        
     }
     
     @IBAction func exitButton(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
-    //Проверяем залониниллся ли пользователь
     
+    @IBAction func unwindToAccount(_ unwindSegue: UIStoryboardSegue) {
+       
+    }
+    
+    //Проверяем залониниллся ли пользователь
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         

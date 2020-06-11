@@ -43,6 +43,7 @@ class CapchaViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let dvc = storyboard.instantiateViewController(withIdentifier: "AccountViewController") as! AccountViewController
         self.present(dvc, animated: true)
+        
     }
     private func setupConfig() {
         checkCodeButton.alpha = 0.5
@@ -52,7 +53,7 @@ class CapchaViewController: UIViewController {
     }
 
 }
-
+// check clode length
 extension CapchaViewController: UITextViewDelegate {
 
 func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

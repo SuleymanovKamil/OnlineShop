@@ -10,32 +10,34 @@
 import UIKit
 import GoogleMaps
 import CoreLocation
-import GooglePlaces
+
 
 class MapViewController: UIViewController {
-    
-
+    var adress = ""
     let locationManager = CLLocationManager()
-    
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var addressLabel: UILabel!
     
     override func viewDidLoad() {
+        navigationController?.setNavigationBarHidden(true, animated: false)
         self.mapView.isMyLocationEnabled = true
         super.viewDidLoad()
-        
-
-        
         mapView.delegate = self
         
         locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
- 
+    
+    @IBAction func exit(_ sender: UIButton) {
+        
+    }
+    
+   
     //Кнопка центровки на локации пользователя
     func didTapMyLocationButton(for mapView: GMSMapView) -> Bool {
 
+        mapView.isMyLocationEnabled = true
         guard let lat = mapView.myLocation?.coordinate.latitude,
             let lng = mapView.myLocation?.coordinate.longitude else { return false }
 
@@ -49,23 +51,32 @@ class MapViewController: UIViewController {
     
     //Пишем адрес
     func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) {
+
         let geocoder = GMSGeocoder()
 
         geocoder.reverseGeocodeCoordinate(coordinate) { response, error in
             guard let address = response?.firstResult(),
-                let lines = address.thoroughfare else {
+                let lines = address.lines else {
                 return
             }
-
-            self.addressLabel.text = lines
-
-
+    
+            
+            let street = lines.joined().split(separator: ",")
+            
+            self.adress = String(street[0] + street[1])
+            self.addressLabel.text = self.adress
+            DispatchQueue.main.async {
+            MainScreenCollectionView.mainAdress = self.adress
+            }
+       
             UIView.animate(withDuration: 0.25) {
                 self.view.layoutIfNeeded()
             }
         }
     }
 }
+
+
 
 extension MapViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
@@ -89,6 +100,7 @@ extension MapViewController: CLLocationManagerDelegate {
         mapView.settings.myLocationButton = true
     }
 
+    //Стартовая локация
     func locationManager(_ manager: CLLocationManager,
         didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else {
@@ -96,12 +108,14 @@ extension MapViewController: CLLocationManagerDelegate {
         }
 
         let loc = location.coordinate
+
         mapView.camera = GMSCameraPosition(target: loc, zoom: 17, bearing: 0, viewingAngle: 0)
-        
        
         locationManager.stopUpdatingLocation()
     }
     
 }
+
+
 
 

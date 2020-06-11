@@ -7,34 +7,40 @@
 //
 
 import UIKit
-import CoreLocation
-import MapKit
 
-class MainScreenCollectionReusableView: UICollectionReusableView {
 
-    @IBOutlet weak var location: UILabel!
+class Header: UICollectionReusableView {
+
+
+    
     @IBOutlet weak var searchBar: UISearchBar!
-    var locationManager: CLLocationManager!
+    @IBOutlet weak var mapOutlet: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-     
+        
     }
     
+    
+    
+    @IBAction func mapPressed(_ sender: Any) {
+        
+        
+    }
+    
+    
+  
 }
-extension MainScreenCollectionReusableView: UISearchBarDelegate {
+extension Header: UISearchBarDelegate {
 
 func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 
-    location.text! = "Lol"
+
     
 }
 
 func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-
-        location.text = "Lol"
-        
-      
+   
     }
 
 }

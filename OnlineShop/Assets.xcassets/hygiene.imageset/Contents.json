@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "hygiene.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "milk.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
