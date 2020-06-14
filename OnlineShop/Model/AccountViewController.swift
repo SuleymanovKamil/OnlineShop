@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAuth
 
 class AccountViewController: UIViewController {
 
@@ -32,7 +32,7 @@ class AccountViewController: UIViewController {
        
     }
     
-    //Проверяем залониниллся ли пользователь
+    //Проверяем залогинился ли пользователь
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         

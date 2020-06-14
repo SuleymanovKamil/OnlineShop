@@ -28,6 +28,9 @@ class MainScreenCollectionView: UICollectionViewController{
 //            print ("Complete")
 //        }
      }
+    
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -73,7 +76,7 @@ class MainScreenCollectionView: UICollectionViewController{
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.mainScreenCatalogCell, for: indexPath) as! MainCVCell
-       
+
         cell.title.text = categoryArray[indexPath.row].name
         cell.image.image = categoryArray[indexPath.row].image
 

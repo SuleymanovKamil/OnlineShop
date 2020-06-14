@@ -22,15 +22,15 @@ class Category {
     }
     
     init(_dictionary: NSDictionary) {
-        id = _dictionary[K.FireBase.OBJECTID] as! String
-        name = _dictionary[K.FireBase.NAME] as! String
-        image = UIImage(named: _dictionary[K.FireBase.IMAGENAME] as? String ?? "")
+        id = _dictionary[K.FireBase.objectID] as! String
+        name = _dictionary[K.FireBase.name] as! String
+        image = UIImage(named: _dictionary[K.FireBase.imageName] as? String ?? "")
     }
 }
 //MARK: - Download categgory from Firebase
 func downloadCategories(completion: @escaping (_ categoryArray: [Category]) -> Void) {
     var categoryArray: [Category] = []
-    FirebaseRefeerense(.Category).getDocuments { (snapshot, error) in
+    FirebaseReference(.Category).getDocuments { (snapshot, error) in
         guard let snapshot = snapshot else {
             completion(categoryArray)
             return
@@ -52,18 +52,18 @@ func SaveCategoryToFirebase(_ category: Category) {
     let id = UUID().uuidString
     category.id = id
     
-    FirebaseRefeerense(.Category).document(id).setData(categoryDictionaryFrom(category) as! [String : Any])
+    FirebaseReference(.Category).document(id).setData(categoryDictionaryFrom(category) as! [String : Any])
 }
 
 //MARK: - Helpers
 func categoryDictionaryFrom(_ category: Category) ->NSDictionary {
     
-    return NSDictionary(objects: [category.id, category.name, category.imageName!], forKeys: [K.FireBase.OBJECTID as NSCopying,
-                                                                                             K.FireBase.NAME  as NSCopying,
-                                                                                             K.FireBase.IMAGENAME  as NSCopying ])
+    return NSDictionary(objects: [category.id, category.name, category.imageName!], forKeys: [K.FireBase.objectID as NSCopying,
+                                                                                             K.FireBase.name  as NSCopying,
+                                                                                             K.FireBase.imageName  as NSCopying ])
 }
 
-//use onle one time
+////use onle one time
 //func createCategorySet() {
 //    let milk = Category(_name: "Молочные продукты и яйца", _imageName: "milk")
 //    let fruits = Category(_name: "Овощи и фрукты", _imageName: "fruits")
@@ -73,7 +73,7 @@ func categoryDictionaryFrom(_ category: Category) ->NSDictionary {
 //    let bread = Category(_name: "Хлеб и выпечка", _imageName: "bread")
 //    let fish = Category(_name: "Рыба и морепродукты", _imageName: "fish")
 //    let coffee = Category(_name: "Кофе и чай", _imageName: "coffee")
-//    let sweets = Category(_name: "Напитки", _imageName: "sweets")
+//    let sweets = Category(_name: "Напитки", _imageName: "drinks")
 //    let sauce = Category(_name: "Соусы, консервы, соленья", _imageName: "sauce")
 //    let hygiene = Category(_name: "Гигиена и бытовая химия", _imageName: "hygiene")
 //    let animals = Category(_name: "Товары для животных", _imageName: "animals")
@@ -83,7 +83,7 @@ func categoryDictionaryFrom(_ category: Category) ->NSDictionary {
 //
 //    let arraysOfCategories = [milk, fruits, meat, frozen, grocery, bread, fish, coffee, sweets, sauce, hygiene, animals, children, home, food]
 //
-//    for category in arraysOfCategories {
-//        saveCategoryToFirebase(category)
-//    }
+////    for category in arraysOfCategories {
+////        saveCategoryToFirebase(category)
+////    }
 //}

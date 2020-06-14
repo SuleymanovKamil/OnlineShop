@@ -19,8 +19,6 @@ class SubClassVC: UITableViewController {
         super.viewDidLoad()
         navigationItem.title = category?.name
         tableView.register(UINib(nibName: "SubCell", bundle: nil), forCellReuseIdentifier: K.subCell)
-        tableView.rowHeight = 100
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -30,7 +28,7 @@ class SubClassVC: UITableViewController {
             loadItems()
         }
     }
-    // MARK: - Table view data source
+    // MARK: - Tableview datasource
 
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -46,6 +44,13 @@ class SubClassVC: UITableViewController {
         return cell
     }
     
+    //MARK: - TableView delegate
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        showItemView(itemArray[indexPath.row])
+    }
  
     // MARK: - Navigation
 
@@ -56,6 +61,12 @@ class SubClassVC: UITableViewController {
         }
     }
     
+    private func showItemView(_ item: Item) {
+        let itemVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(identifier: "itemView") as! ItemViewController
+        itemVC.item = item
+        self.navigationController?.pushViewController(itemVC, animated: true)
+    }
+
     
     //MARK: Load Items
     private func loadItems() {

@@ -16,6 +16,7 @@ class AddItemViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var priceTextField: UITextField!
     @IBOutlet var descriptionTextView: UITextView!
+    @IBOutlet var itemWeightLabel: UITextField!
     
     //MARK: - Vars
     var category: Category!
@@ -66,7 +67,7 @@ class AddItemViewController: UIViewController {
     //Проверяем заполнены ли все поля
     private func fieldsAreCompleted() -> Bool {
         
-        return (titleTextField.text != "" && priceTextField.text != "" && descriptionTextView.text != "")
+        return (titleTextField.text != "" && priceTextField.text != "" && descriptionTextView.text != "" && itemWeightLabel.text != "")
     }
     
     private func dismissKeayboard() {
@@ -105,6 +106,7 @@ class AddItemViewController: UIViewController {
         item.categoryId = category.id
         item.description = descriptionTextView.text
         item.price = Double(priceTextField.text!)
+        item.itemWeith = itemWeightLabel.text!
         
         if images.count > 0 {
             uploadImages(images: images, itemId: item.id) { (imageLikArray) in

@@ -11,7 +11,7 @@ import UIKit
 import GoogleMaps
 import CoreLocation
 
-
+//Адрес доставки на главном экране обновляется через unwindSegue там же
 class MapViewController: UIViewController {
     var adress = ""
     let locationManager = CLLocationManager()
