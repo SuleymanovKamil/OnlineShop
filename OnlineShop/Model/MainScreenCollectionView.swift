@@ -9,7 +9,10 @@
 import UIKit
 
 class MainScreenCollectionView: UICollectionViewController{
+    
+    //MARK: - IBOutlet
     @IBOutlet weak var mainCategories: UICollectionView!
+    
     //MARK: Vars
     var categoryArray: [Category] = []
     static var mainAdress = "Указать адрес доставки"
@@ -19,7 +22,6 @@ class MainScreenCollectionView: UICollectionViewController{
         super.viewDidLoad()
         mainCategories.register(UINib(nibName: "MainCVCell", bundle: nil), forCellWithReuseIdentifier: K.mainScreenCatalogCell)
          MainScreenCollectionView.mainAdress = UserDefaults.standard.string(forKey: "delievertAdress") ?? "Указать адрес доставки"
-        
        //для сохранения категорий в Firebase
 //        createCategorySet()
         
@@ -27,19 +29,18 @@ class MainScreenCollectionView: UICollectionViewController{
 //        downloadCategories{ (allCatogories) in
 //            print ("Complete")
 //        }
-     }
-    
-    
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
         loadCategories()
-    }
+     }
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//
+//        loadCategories()
+//    }
 
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: false)
+        self.collectionView.reloadData()
     }
     
     //hide navBar while scrolling
@@ -56,8 +57,11 @@ class MainScreenCollectionView: UICollectionViewController{
     @IBAction  func unwindToMainScreen (segue: UIStoryboardSegue){
         
         UserDefaults.standard.set(MainScreenCollectionView.mainAdress, forKey: "delievertAdress")
-        collectionView.reloadData()
+//        collectionView.reloadData()
     }
+    
+
+    
     //MARK: Download categories
     private func loadCategories() {
         

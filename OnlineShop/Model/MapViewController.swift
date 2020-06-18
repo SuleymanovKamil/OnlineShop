@@ -30,10 +30,24 @@ class MapViewController: UIViewController {
     }
     
     @IBAction func exit(_ sender: UIButton) {
-        
+        if PhoneViewController.address == "" {
+            performSegue(withIdentifier: "toPhoneVC", sender: self)
+            print (1)
+        } else {
+            dismiss(animated: true, completion: nil)
+            print (MainScreenCollectionView.mainAdress)
+        }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toPhoneVC" {
+            PhoneViewController.address = MainScreenCollectionView.mainAdress
+            print (PhoneViewController.address)
+            }
+            
+        }
    
+    
     //Кнопка центровки на локации пользователя
     func didTapMyLocationButton(for mapView: GMSMapView) -> Bool {
 
@@ -116,6 +130,12 @@ extension MapViewController: CLLocationManagerDelegate {
     
 }
 
-
+extension UINavigationController {
+func popToViewController(ofClass: AnyClass, animated: Bool = true) {
+  if let vc = viewControllers.last(where: { $0.isKind(of: ofClass) }) {
+    popToViewController(vc, animated: animated)
+  }
+}
+}
 
 

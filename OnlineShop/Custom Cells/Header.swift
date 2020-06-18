@@ -24,10 +24,18 @@ class Header: UICollectionReusableView {
     
     
     @IBAction func mapPressed(_ sender: Any) {
-        
+        goToMapVC()
         
     }
     
+    private func goToMapVC() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let dvc = storyboard.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+        dvc.modalPresentationStyle = .fullScreen
+//        mainScreenVC.present(dvc, animated: true, completion: nil)
+        self.window?.rootViewController?.present(dvc, animated: true, completion: nil)
+
+    }
     
   
 }

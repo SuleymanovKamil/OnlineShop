@@ -59,7 +59,7 @@ func saveBasketToFirestore(_ basket: Basket) {
 
 func basketDictionaryFrom(_ basket: Basket) -> NSDictionary {
     
-    return NSDictionary(objects: [basket.id, basket.ownerId, basket.itemIds, basket.quantity], forKeys: [K.FireBase.objectID as NSCopying, K.FireBase.ownerID as NSCopying, K.FireBase.itemID as NSCopying, K.FireBase.quantity as NSCopying])
+    return NSDictionary(objects: [basket.id as Any, basket.ownerId as Any, basket.itemIds as Any, basket.quantity as Any], forKeys: [K.FireBase.objectID as NSCopying, K.FireBase.ownerID as NSCopying, K.FireBase.itemID as NSCopying, K.FireBase.quantity as NSCopying])
 }
 
 //MARK: - Update basket

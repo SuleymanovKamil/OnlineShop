@@ -10,17 +10,40 @@ import UIKit
 import FirebaseAuth
 import FlagPhoneNumber
 
-class PhoneViewController: UIViewController {
+class PhoneViewController: UIViewController, UITextFieldDelegate {
 
-var phoneNumber: String?
+    //MARK: - Vars
+    var phoneNumber: String?
     var listController: FPNCountryListViewController!
+    static var address = ""
     
+    //MARK: - IBOutlets
     @IBOutlet weak var phoneNumberTextField: FPNTextField!
     @IBOutlet weak var fetchCodeButton: UIButton!
+    @IBOutlet var nameTextField: UITextField!
+    @IBOutlet var adressTextField: UITextField!
     
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupConfig()
+        self.nameTextField.delegate = self
+        self.adressTextField.delegate = self
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        adressTextField.placeholder = "Укажите адрес доставки"
+        adressTextField.text = PhoneViewController.address
+ 
+    }
+    
+    //MARK: - IBActions
+    @IBAction func adressButtonPressed(_ sender: UIButton) {
+        goToMapVC()
+    }
     @IBAction func fetchCodeTapped(_ sender: UIButton) {
-    
-   
+        
+        
         guard phoneNumber != nil else { return }
         
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber!, uiDelegate: nil) { (verificationID, error) in
@@ -33,20 +56,25 @@ var phoneNumber: String?
         }
     }
     
-    private func showCodeValidVC(verificationID: String) {
+    
+    //MARK: - Navigation
+    
+  private func showCodeValidVC(verificationID: String) {
+      let storyboard = UIStoryboard(name: "Main", bundle: nil)
+      let dvc = storyboard.instantiateViewController(withIdentifier: "CapchaViewController") as! CapchaViewController
+      dvc.verificationID = verificationID
+      self.present(dvc, animated: true, completion: nil)
+  }
+    
+    private func goToMapVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let dvc = storyboard.instantiateViewController(withIdentifier: "CapchaViewController") as! CapchaViewController
-        dvc.verificationID = verificationID
+        let dvc = storyboard.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+        dvc.modalPresentationStyle = .fullScreen
         self.present(dvc, animated: true, completion: nil)
-     
-     
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-      setupConfig()
-       
-    }
-
+    
+    
+    //MARK: - Setup confi function
     private func setupConfig() {
         fetchCodeButton.alpha = 0.5
         fetchCodeButton.isEnabled = false
@@ -60,7 +88,11 @@ var phoneNumber: String?
             self.phoneNumberTextField.setFlag(countryCode: country.code)
         }
     }
- 
+    
+   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+       self.view.endEditing(true)
+       return false
+   }
 }
 //MARK: - FlagPhoneNumber extensions
 extension PhoneViewController: FPNTextFieldDelegate {

@@ -21,17 +21,20 @@ class CapchaViewController: UIViewController {
         
         let credetional = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: code)
         
-        Auth.auth().signIn(with: credetional) { (_, error) in
+        Auth.auth().signIn(with: credetional) { (authDataResult, error) in
             if error != nil {
-                let ac = UIAlertController(title: error?.localizedDescription, message: nil, preferredStyle: .alert)
-                let cancel = UIAlertAction(title: "Отмена", style: .cancel)
-                ac.addAction(cancel)
-                self.present(ac, animated: true)
+                    let ac = UIAlertController(title: error?.localizedDescription, message: nil, preferredStyle: .alert)
+                    let cancel = UIAlertAction(title: "Отмена", style: .cancel)
+                    ac.addAction(cancel)
+                    self.present(ac, animated: true)
             } else {
                 self.goToMainScreen()
+                downloadUserFromFirestore(userId: authDataResult!.user.uid)
             }
         }
     }
+    
+    //MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,7 +45,8 @@ class CapchaViewController: UIViewController {
     private func goToMainScreen() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let dvc = storyboard.instantiateViewController(withIdentifier: "AccountViewController") as! AccountViewController
-        self.present(dvc, animated: true)
+        dvc.modalPresentationStyle = .fullScreen
+        self.present(dvc, animated: false, completion: nil)
         
     }
     private func setupConfig() {
@@ -53,7 +57,7 @@ class CapchaViewController: UIViewController {
     }
 
 }
-// check clode length
+// check code length
 extension CapchaViewController: UITextViewDelegate {
 
 func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

@@ -49,6 +49,17 @@ struct K {
         static let ownerID = "ownerID"
         static let itemID = "itemID"
         static let quantity = "quantity"
+        
+        //Users
+        static let userPhoneNumber = "userPhoneNumber"
+        static let userName = "name"
+        static let userSurname = "surname"
+        static let userFullname = "fullName"
+        static let currentUser = "currentUser"
+        static let userAdress = "adress"
+        static let userOnboard = "onboard"
+        static let itemsInBaket = "itemsInBaket"
+        
     }
     
 }

@@ -24,6 +24,7 @@
 		498AC423248CED9F00332E2C /* FirebaseCollectionReferense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498AC422248CED9F00332E2C /* FirebaseCollectionReferense.swift */; };
 		4994E802249537420064DDCD /* Basket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4994E801249537420064DDCD /* Basket.swift */; };
 		4994E80424953F4C0064DDCD /* BasketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4994E80324953F4C0064DDCD /* BasketViewController.swift */; };
+		4994E80624981F500064DDCD /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4994E80524981F500064DDCD /* Users.swift */; };
 		49CED84924927F04001EA4A0 /* Reachabilty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CED84824927F04001EA4A0 /* Reachabilty.swift */; };
 		49CED84B24927F88001EA4A0 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CED84A24927F88001EA4A0 /* Download.swift */; };
 		49CED84D2492C45E001EA4A0 /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CED84C2492C45E001EA4A0 /* HelperFunctions.swift */; };
@@ -59,6 +60,7 @@
 		498AC422248CED9F00332E2C /* FirebaseCollectionReferense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseCollectionReferense.swift; sourceTree = "<group>"; };
 		4994E801249537420064DDCD /* Basket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Basket.swift; sourceTree = "<group>"; };
 		4994E80324953F4C0064DDCD /* BasketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketViewController.swift; sourceTree = "<group>"; };
+		4994E80524981F500064DDCD /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		49CED84824927F04001EA4A0 /* Reachabilty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachabilty.swift; sourceTree = "<group>"; };
 		49CED84A24927F88001EA4A0 /* Download.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
 		49CED84C2492C45E001EA4A0 /* HelperFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				49E37C2E24805B500039A992 /* Category.swift */,
 				49301EC5248FA29900517FAE /* Item.swift */,
 				4994E801249537420064DDCD /* Basket.swift */,
+				4994E80524981F500064DDCD /* Users.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				493E599624859026001CA5EE /* MapViewController.swift in Sources */,
 				49E37C2F24805B500039A992 /* Category.swift in Sources */,
 				49E37C0F248031480039A992 /* AppDelegate.swift in Sources */,
+				4994E80624981F500064DDCD /* Users.swift in Sources */,
 				49E37C11248031480039A992 /* SceneDelegate.swift in Sources */,
 				498AC423248CED9F00332E2C /* FirebaseCollectionReferense.swift in Sources */,
 				4928BF212486B72500616000 /* PhoneViewController.swift in Sources */,

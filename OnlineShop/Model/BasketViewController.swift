@@ -166,9 +166,9 @@ extension BasketViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.reloadData()
             
             removeItemFromBasket(itemId: itemToDelete.id)
-            updateBasketInFirestore(basket!, withValues: [K.FireBase.itemID : basket!.itemIds]) { (error) in
+            updateBasketInFirestore(basket!, withValues: [K.FireBase.itemID : basket!.itemIds as Any]) { (error) in
                 if error != nil {
-                    print ("Error while updating basket", error?.localizedDescription)
+                    print ("Error while updating basket", error?.localizedDescription as Any)
                 }
                 self.getBasketItems()
             }

@@ -49,7 +49,7 @@ func saveItemToFirestore(_ item: Item) {
 
 func itemDictionaryFrom(_ item: Item) -> NSDictionary {
     
-    return NSDictionary(objects: [item.id, item.categoryId, item.name, item.description, item.price, item.imageLinks, item.itemQuantity, item.itemWeith],forKeys: [K.FireBase.objectID as NSCopying, K.FireBase.categoryID as NSCopying, K.FireBase.name as NSCopying, K.FireBase.description as NSCopying, K.FireBase.price as NSCopying, K.FireBase.imageLinks as NSCopying, K.FireBase.quantity as NSCopying, K.FireBase.itemWeith as NSCopying])
+    return NSDictionary(objects: [item.id as Any, item.categoryId as Any, item.name as Any, item.description as Any, item.price as Any, item.imageLinks as Any, item.itemQuantity as Any, item.itemWeith as Any],forKeys: [K.FireBase.objectID as NSCopying, K.FireBase.categoryID as NSCopying, K.FireBase.name as NSCopying, K.FireBase.description as NSCopying, K.FireBase.price as NSCopying, K.FireBase.imageLinks as NSCopying, K.FireBase.quantity as NSCopying, K.FireBase.itemWeith as NSCopying])
 }
 
 //MARK: Download Func
@@ -96,7 +96,7 @@ func downloadItems(_ withIds: [String], completion: @escaping (_ itemArray: [Ite
                 
                 if snapshot.exists {
                     
-                    itemArray.append(Item(_dictionary: snapshot.data()! as! NSDictionary))
+                    itemArray.append(Item(_dictionary: snapshot.data()! as NSDictionary))
                     count += 1
                     
                 } else {

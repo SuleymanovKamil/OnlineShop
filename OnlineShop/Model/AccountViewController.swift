@@ -9,50 +9,66 @@
 import UIKit
 import FirebaseAuth
 
-class AccountViewController: UIViewController {
+class AccountViewController: UITableViewController {
 
+    //MARK: - IBOutlents
     @IBOutlet weak var authOutlet: UIButton!
-    @IBOutlet weak var exitOutlet: UIButton!
     
     
+    //MARK: - View Lifecycle
     
-    @IBAction func authTapped() {
-        self.performSegue(withIdentifier: K.Segues.segueToPhoneVCSegue , sender: self)
-      }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+//Проверяем залогинился ли пользователь
+        override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(true)
+         checkLoginStatus()
+
     }
     
+    //MARK: - IBActions
+    @IBAction func authTapped() {
+        
+        if User.currentUser() != nil {
+            do {
+                try Auth.auth().signOut()
+                authOutlet.setTitle("Войти в аккаунт", for: .normal)
+            } catch {
+                print ("error user auth")
+            }
+        } else {
+            goToPhoneVC()
+        }
+        
+      }
+
     @IBAction func exitButton(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func unwindToAccount(_ unwindSegue: UIStoryboardSegue) {
        
     }
     
-    //Проверяем залогинился ли пользователь
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+
+    //MARK: - Helpers
+    
+    private func checkLoginStatus() {
         
-        DispatchQueue.main.async {
-            if Auth.auth().currentUser?.uid != nil {
-//                self.authOutlet.isHidden = true
-            }
+//        if Auth.auth().currentUser?.uid != nil
+        if User.currentUser() != nil {
+            authOutlet.setTitle("Выйти", for: .normal)
+        } else {
+            authOutlet.setTitle("Войти в аккаунт", for: .normal) 
         }
     }
 
-  //  логаут
-    
-//    @IBAction func logOut(_ sender: UIButton) {
-//
-//        do {
-//            try Auth.auth().signOut()
-//            performSegue(withIdentifier: "closeSegue", sender: self)
-//        } catch {
-//
-//        }
-//    }
-
+  private func goToPhoneVC() {
+      let storyboard = UIStoryboard(name: "Main", bundle: nil)
+      let dvc = storyboard.instantiateViewController(withIdentifier: "PhoneViewController") as! PhoneViewController
+      dvc.modalPresentationStyle = .fullScreen
+      self.present(dvc, animated: true, completion: nil)
+      
+  }
 }

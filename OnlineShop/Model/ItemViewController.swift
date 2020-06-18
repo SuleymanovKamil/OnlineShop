@@ -57,16 +57,8 @@ class ItemViewController: UIViewController {
     
     @IBAction func addToBasketPressed(_ sender: UIButton) {
         
-        //TO DO: check log in
-        downloadBasketFromFirestore("1234") { (basket) in
-            
-            if basket == nil {
-                self.createNewBasket()
-            } else {
-                basket!.itemIds.append(self.item.id)
-                self.updateBasket(basket: basket!, withValues: [K.FireBase.itemID : basket!.itemIds, K.FireBase.quantity : basket!.quantity])
-            }
-        }
+        showLoginView()
+
     }
     
     //MARK: - Add to basket
@@ -131,8 +123,19 @@ class ItemViewController: UIViewController {
             descriptionTextView.text = item.description
         }
     }
+    
+    
+    //MARK: - Show loin view
+    
+    private func showLoginView() {
+        
+        let loginView = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(identifier: "AccountViewController")
+        loginView.modalPresentationStyle = .fullScreen
+        self.present(loginView, animated: true, completion: nil)
+     
+    }
 }
-
+//MARK: - CollectionView extension
 extension ItemViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return itemImages.count == 0 ? 1 : itemImages.count
