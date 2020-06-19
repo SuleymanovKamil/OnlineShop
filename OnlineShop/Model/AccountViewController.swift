@@ -13,6 +13,7 @@ class AccountViewController: UITableViewController {
 
     //MARK: - IBOutlents
     @IBOutlet weak var authOutlet: UIButton!
+    @IBOutlet var historyOutlet: UIButton!
     
     
     //MARK: - View Lifecycle
@@ -25,6 +26,7 @@ class AccountViewController: UITableViewController {
         override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(true)
          checkLoginStatus()
+            
 
     }
     
@@ -59,8 +61,12 @@ class AccountViewController: UITableViewController {
 //        if Auth.auth().currentUser?.uid != nil
         if User.currentUser() != nil {
             authOutlet.setTitle("Выйти", for: .normal)
+            historyOutlet.alpha = 1
+            historyOutlet.isEnabled = true
         } else {
-            authOutlet.setTitle("Войти в аккаунт", for: .normal) 
+            authOutlet.setTitle("Войти в аккаунт", for: .normal)
+            historyOutlet.alpha = 0.5
+            historyOutlet.isEnabled = false
         }
     }
 

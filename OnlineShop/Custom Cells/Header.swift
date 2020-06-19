@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 
 class Header: UICollectionReusableView {
@@ -18,13 +19,15 @@ class Header: UICollectionReusableView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        if User.currentUser() == nil {
+            mapOutlet.isHidden = true
+        }
     }
     
     
     
     @IBAction func mapPressed(_ sender: Any) {
-        goToMapVC()
+//        goToMapVC()
         
     }
     
@@ -32,13 +35,11 @@ class Header: UICollectionReusableView {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let dvc = storyboard.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
         dvc.modalPresentationStyle = .fullScreen
-//        mainScreenVC.present(dvc, animated: true, completion: nil)
         self.window?.rootViewController?.present(dvc, animated: true, completion: nil)
 
     }
-    
-  
 }
+
 extension Header: UISearchBarDelegate {
 
 func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

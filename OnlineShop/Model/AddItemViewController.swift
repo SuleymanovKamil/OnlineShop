@@ -44,12 +44,6 @@ class AddItemViewController: UIViewController {
             self.hud.indicatorView = JGProgressHUDErrorIndicatorView()
             self.hud.show(in: self.view)
             self.hud.dismiss(afterDelay: 2.0)
-            
-//            let alert = UIAlertController(title: "Ошибка", message: "Заполните поля", preferredStyle: .alert)
-//            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
-//            alert.addAction(ok)
-//            self.present(alert, animated: true, completion: nil)
-            
         }
     }
     

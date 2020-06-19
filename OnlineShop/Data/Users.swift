@@ -13,24 +13,17 @@ class User {
     
     var objectID: String
     var name: String
-    var surname: String
-    var fullName: String
     var itemsInBasket: [String]
     
     var adress: String
-    var onBoard: Bool
     
     //MARK: - Inits
-    init(_userId: String, _name: String, _surname: String) {
+    init(_userId: String, _name: String) {
         
         objectID = _userId
         name = _name
-        surname = _surname
-        
-        fullName = _name + " " + _surname
         itemsInBasket = []
         adress = ""
-        onBoard = false
     }
     
     init(_dictionary: NSDictionary) {
@@ -42,30 +35,16 @@ class User {
         } else {
             name = ""
         }
-        if let lname = _dictionary[K.FireBase.userSurname] {
-            surname = lname as! String
-        } else {
-            surname = ""
-        }
-        
-        fullName = name + " " + surname
-        
-        if let faddress = _dictionary[K.FireBase.userAdress] {
-            adress = faddress as! String
-        } else {
-            adress = ""
-        }
-        
-        if let onB = _dictionary[K.FireBase.userOnboard] {
-            onBoard = onB as! Bool
-        } else {
-            onBoard = false
-        }
         
         if let purchaseIds = _dictionary[K.FireBase.itemsInBaket] {
             itemsInBasket = purchaseIds as! [String]
         } else {
             itemsInBasket = []
+        }
+        if let faddress = _dictionary[K.FireBase.userAdress] {
+            adress = faddress as! String
+        } else {
+            adress = ""
         }
     }
     
@@ -93,7 +72,7 @@ class User {
 
 func userDictionaryFrom(user: User) -> NSDictionary {
     
-    return NSDictionary(objects: [user.objectID, user.name, user.surname, user.fullName, user.adress, user.onBoard, user.itemsInBasket], forKeys: [K.FireBase.objectID as NSCopying, K.FireBase.userName as NSCopying, K.FireBase.userSurname as NSCopying, K.FireBase.userFullname as NSCopying, K.FireBase.userAdress as NSCopying, K.FireBase.userOnboard as NSCopying, K.FireBase.itemsInBaket as NSCopying])
+    return NSDictionary(objects: [user.objectID, user.name, user.adress, user.itemsInBasket], forKeys: [K.FireBase.objectID as NSCopying, K.FireBase.userName as NSCopying,  K.FireBase.userAdress as NSCopying, K.FireBase.itemsInBaket as NSCopying])
 }
 
 
@@ -131,10 +110,31 @@ func downloadUserFromFirestore(userId: String) {
         } else {
             //there is no user, save new in firestore
             
-            let user = User(_userId: userId, _name: "", _surname: "")
+            let user = User(_userId: userId, _name: "")
             saveUserLocally(userDictionary: userDictionaryFrom(user: user))
             saveUserToFirestore(User: user)
         }
     }
 
+}
+
+//MARK: - Update user
+
+func updateCurrentUserInFirestore(withValues: [String : Any], completion: @escaping (_ error: Error?) -> Void) {
+    
+    
+    if let dictionary = UserDefaults.standard.object(forKey: K.FireBase.currentUser) {
+        
+        let userObject = (dictionary as! NSDictionary).mutableCopy() as! NSMutableDictionary
+        userObject.setValuesForKeys(withValues)
+        
+        FirebaseReference(.User).document(User.currentId()).updateData(withValues) { (error) in
+            
+            completion(error)
+            
+            if error == nil {
+                saveUserLocally(userDictionary: userObject)
+            }
+        }
+    }
 }

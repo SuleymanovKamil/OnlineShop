@@ -53,11 +53,8 @@ struct K {
         //Users
         static let userPhoneNumber = "userPhoneNumber"
         static let userName = "name"
-        static let userSurname = "surname"
-        static let userFullname = "fullName"
         static let currentUser = "currentUser"
         static let userAdress = "adress"
-        static let userOnboard = "onboard"
         static let itemsInBaket = "itemsInBaket"
         
     }

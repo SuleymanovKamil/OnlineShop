@@ -15,38 +15,52 @@ import CoreLocation
 class MapViewController: UIViewController {
     var adress = ""
     let locationManager = CLLocationManager()
+    
+    //MARK: - IBOutlers
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet var okButtonOutlet: UIButton!
     
     override func viewDidLoad() {
-        navigationController?.setNavigationBarHidden(true, animated: false)
+//        navigationController?.setNavigationBarHidden(true, animated: false)
         self.mapView.isMyLocationEnabled = true
         super.viewDidLoad()
         mapView.delegate = self
-        
         locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
+     
     
+    //MARK: - IBAction
     @IBAction func exit(_ sender: UIButton) {
-        if PhoneViewController.address == "" {
+        if User.currentUser() == nil {
             performSegue(withIdentifier: "toPhoneVC", sender: self)
-            print (1)
         } else {
-            dismiss(animated: true, completion: nil)
-            print (MainScreenCollectionView.mainAdress)
+    popTheView()
+
         }
     }
+    @IBAction func okButtonPressed(_ sender: Any) {
+        if User.currentUser() == nil {
+                performSegue(withIdentifier: "toPhoneVC", sender: self)
+            } else {
+        popTheView()
+
+            }
+    }
     
+    //MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toPhoneVC" {
             PhoneViewController.address = MainScreenCollectionView.mainAdress
-            print (PhoneViewController.address)
             }
             
         }
-   
+   //Возвращаемся на предыдущее вью
+   private func popTheView() {
+       self.navigationController?.popViewController(animated: true)
+   }
     
     //Кнопка центровки на локации пользователя
     func didTapMyLocationButton(for mapView: GMSMapView) -> Bool {
@@ -127,8 +141,10 @@ extension MapViewController: CLLocationManagerDelegate {
        
         locationManager.stopUpdatingLocation()
     }
-    
+  
+
 }
+
 
 extension UINavigationController {
 func popToViewController(ofClass: AnyClass, animated: Bool = true) {

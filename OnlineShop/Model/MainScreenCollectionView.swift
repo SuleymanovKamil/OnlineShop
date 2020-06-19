@@ -22,6 +22,7 @@ class MainScreenCollectionView: UICollectionViewController{
         super.viewDidLoad()
         mainCategories.register(UINib(nibName: "MainCVCell", bundle: nil), forCellWithReuseIdentifier: K.mainScreenCatalogCell)
          MainScreenCollectionView.mainAdress = UserDefaults.standard.string(forKey: "delievertAdress") ?? "Указать адрес доставки"
+       
        //для сохранения категорий в Firebase
 //        createCategorySet()
         
@@ -31,16 +32,13 @@ class MainScreenCollectionView: UICollectionViewController{
 //        }
         loadCategories()
      }
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//
-//        loadCategories()
-//    }
+
 
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: false)
         self.collectionView.reloadData()
+         print(PhoneViewController.address)
     }
     
     //hide navBar while scrolling
