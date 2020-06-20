@@ -14,6 +14,7 @@ enum FCollectionReferene: String {
     case Category
     case Items
     case Basket
+    case FavoriteItems
 }
 
 func FirebaseReference (_ collectionReferense: FCollectionReferene) -> CollectionReference {

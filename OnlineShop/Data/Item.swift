@@ -33,6 +33,7 @@ class Item {
         imageLinks = _dictionary[K.FireBase.imageLinks] as? [String]
         itemQuantity = _dictionary[K.FireBase.quantity] as? Int
         itemWeith = _dictionary[K.FireBase.itemWeith] as? String
+
     }
 }
 
@@ -112,4 +113,6 @@ func downloadItems(_ withIds: [String], completion: @escaping (_ itemArray: [Ite
         completion (itemArray)
     }
 }
+
+
 

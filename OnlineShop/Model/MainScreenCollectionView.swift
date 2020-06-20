@@ -21,8 +21,6 @@ class MainScreenCollectionView: UICollectionViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         mainCategories.register(UINib(nibName: "MainCVCell", bundle: nil), forCellWithReuseIdentifier: K.mainScreenCatalogCell)
-         MainScreenCollectionView.mainAdress = UserDefaults.standard.string(forKey: "delievertAdress") ?? "Указать адрес доставки"
-       
        //для сохранения категорий в Firebase
 //        createCategorySet()
         
@@ -32,13 +30,29 @@ class MainScreenCollectionView: UICollectionViewController{
 //        }
         loadCategories()
      }
-
-
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: false)
         self.collectionView.reloadData()
-         print(PhoneViewController.address)
+        updateUserAddress()
+    }
+    
+
+    func updateUserAddress() {
+        if User.currentUser() != nil {
+            let currentUser = User.currentUser()!
+            MainScreenCollectionView.mainAdress = currentUser.adress
+        }
+        
+    }
+    //MARK: Download categories
+    private func loadCategories() {
+        
+        downloadCategories {(allCategories) in
+            
+            self.categoryArray = allCategories
+            self.collectionView.reloadData()
+        }
     }
     
     //hide navBar while scrolling
@@ -51,25 +65,6 @@ class MainScreenCollectionView: UICollectionViewController{
                navigationItem.leftBarButtonItem = nil
            }
        }
-    //MARK: - UnwindSegue
-    @IBAction  func unwindToMainScreen (segue: UIStoryboardSegue){
-        
-        UserDefaults.standard.set(MainScreenCollectionView.mainAdress, forKey: "delievertAdress")
-//        collectionView.reloadData()
-    }
-    
-
-    
-    //MARK: Download categories
-    private func loadCategories() {
-        
-        downloadCategories {(allCategories) in
-            
-            self.categoryArray = allCategories
-            self.collectionView.reloadData()
-        }
-    }
-    
     //MARK: - CollectionView methods
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return categoryArray.count
@@ -90,10 +85,15 @@ class MainScreenCollectionView: UICollectionViewController{
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let hadder = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! Header
         hadder.mapOutlet.setTitle(MainScreenCollectionView.mainAdress, for: .normal)
+         if User.currentUser() == nil {
+            hadder.mapOutlet.isHidden = true
+         } else {
+            hadder.mapOutlet.isHidden = false
+        }
         return hadder
     }
 
-    //MARK: - Segue to SubVC
+    //MARK: - Navigation
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
            performSegue(withIdentifier: K.Segues.toSubCategorySegue, sender: categoryArray[indexPath.row])    }
        
@@ -103,7 +103,11 @@ class MainScreenCollectionView: UICollectionViewController{
             vc.category = sender as? Category
         }
     }
+        @IBAction  func unwindToMainScreen (segue: UIStoryboardSegue){
+            UserDefaults.standard.set(MainScreenCollectionView.mainAdress, forKey: "delievertAdress")
+        }
 }
+
 //MARK: - Extension for CollectionViewLayout Delegate
 extension MainScreenCollectionView: UICollectionViewDelegateFlowLayout {
     
@@ -133,6 +137,7 @@ extension MainScreenCollectionView: UICollectionViewDelegateFlowLayout {
     
     
     
+
 //MARK: - Кнопка поиска в навбаре
     func navBarButtonsApper () {
         

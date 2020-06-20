@@ -64,6 +64,7 @@ class SubClassVC: UITableViewController {
     private func showItemView(_ item: Item) {
         let itemVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(identifier: "itemView") as! ItemViewController
         itemVC.item = item
+        itemVC.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(itemVC, animated: true)
     }
 

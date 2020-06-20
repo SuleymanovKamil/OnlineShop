@@ -138,3 +138,4 @@ func updateCurrentUserInFirestore(withValues: [String : Any], completion: @escap
         }
     }
 }
+    

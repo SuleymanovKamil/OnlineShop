@@ -19,10 +19,8 @@ class Header: UICollectionReusableView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        if User.currentUser() == nil {
-            mapOutlet.isHidden = true
+
         }
-    }
     
     
     

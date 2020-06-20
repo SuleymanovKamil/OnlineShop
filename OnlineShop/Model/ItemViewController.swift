@@ -16,6 +16,7 @@ class ItemViewController: UIViewController {
     @IBOutlet var priceLabel: UILabel!
     @IBOutlet var descriptionTextView: UITextView!
     @IBOutlet var quantitylabel: UILabel!
+    @IBOutlet var unfavotiteOutlet: UIButton!
     
     //MARK: - Vars
     var item: Item!
@@ -58,6 +59,54 @@ class ItemViewController: UIViewController {
     @IBAction func addToBasketPressed(_ sender: UIButton) {
         
         showLoginView()
+
+    }
+    
+    //MARK: - Add to favorite
+    
+    @IBAction func toFavoritePressed(_ sender: UIButton) {
+        if unfavotiteOutlet.image(for: .normal) == UIImage(named: "unfavorite"){
+            unfavotiteOutlet.setImage(UIImage(named: "favorite"), for: .normal)
+
+            
+        } else {
+            unfavotiteOutlet.setImage(UIImage(named: "unfavorite"), for: .normal)
+            
+        }
+    }
+    
+    private func createNewFavorites() {
+        
+        let newFavoriteItems = Favoriteitems()
+        newFavoriteItems.id = UUID().uuidString
+        newFavoriteItems.ownerId = "1234"
+        newFavoriteItems.itemIds = [self.item.id]
+        saveFavoriteItemsToFirestore(newFavoriteItems)
+        
+        self.hud.textLabel.text = "Добавлено в любимые товары"
+        self.hud.indicatorView = JGProgressHUDSuccessIndicatorView()
+        self.hud.show(in: self.view)
+        self.hud.dismiss(afterDelay: 2.0)
+    }
+    private func updateFavorites(favoritesItem: Favoriteitems, withValues: [String : Any]) {
+       updateFavoriteItemsInFirestore(favoritesItem, withValues: withValues) { (error) in
+            
+            if error != nil {
+                
+                self.hud.textLabel.text = "Error: \(error!.localizedDescription)"
+                self.hud.indicatorView = JGProgressHUDErrorIndicatorView()
+                self.hud.show(in: self.view)
+                self.hud.dismiss(afterDelay: 2.0)
+
+                print("error updating favorites", error!.localizedDescription)
+            } else {
+                
+                self.hud.textLabel.text = "Добавлено в любимые товары"
+                self.hud.indicatorView = JGProgressHUDSuccessIndicatorView()
+                self.hud.show(in: self.view)
+                self.hud.dismiss(afterDelay: 2.0)
+            }
+        }
 
     }
     
@@ -115,6 +164,10 @@ class ItemViewController: UIViewController {
     
     //MARK: - SetupUi
     private func setupUI() {
+          unfavotiteOutlet.setImage(UIImage(named: "unfavorite"), for: .normal)
+        if User.currentUser() == nil {
+            unfavotiteOutlet.isEnabled = false
+        }
         
         if item != nil {
             self.title = item.name
@@ -125,13 +178,13 @@ class ItemViewController: UIViewController {
     }
     
     
-    //MARK: - Show loin view
+    //MARK: - Show login view
     
     private func showLoginView() {
         
         let loginView = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(identifier: "AccountViewController")
         loginView.modalPresentationStyle = .fullScreen
-        self.present(loginView, animated: true, completion: nil)
+        self.navigationController?.pushViewController(loginView, animated: true)
      
     }
 }

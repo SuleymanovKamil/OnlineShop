@@ -35,7 +35,7 @@ class MapViewController: UIViewController {
     //MARK: - IBAction
     @IBAction func exit(_ sender: UIButton) {
         if User.currentUser() == nil {
-            performSegue(withIdentifier: "toPhoneVC", sender: self)
+            performSegue(withIdentifier: K.Segues.segueToPhoneVCSegue, sender: self)
         } else {
     popTheView()
 
@@ -43,7 +43,7 @@ class MapViewController: UIViewController {
     }
     @IBAction func okButtonPressed(_ sender: Any) {
         if User.currentUser() == nil {
-                performSegue(withIdentifier: "toPhoneVC", sender: self)
+                performSegue(withIdentifier: K.Segues.segueToPhoneVCSegue, sender: self)
             } else {
         popTheView()
 
@@ -52,7 +52,7 @@ class MapViewController: UIViewController {
     
     //MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toPhoneVC" {
+        if segue.identifier == K.Segues.segueToPhoneVCSegue {
             PhoneViewController.address = MainScreenCollectionView.mainAdress
             }
             
@@ -93,6 +93,7 @@ class MapViewController: UIViewController {
             
             self.adress = String(street[0] + street[1])
             self.addressLabel.text = self.adress
+            self.updateUserAddress()
             DispatchQueue.main.async {
             MainScreenCollectionView.mainAdress = self.adress
             }
@@ -102,6 +103,24 @@ class MapViewController: UIViewController {
             }
         }
     }
+    
+    //MARK: - update user adsress
+         private func updateUserAddress() {
+     
+             let withValues = [K.FireBase.userAdress : adress] as [String : Any]
+     
+     
+             updateCurrentUserInFirestore(withValues: withValues) { (error) in
+     
+                 if error == nil {
+    
+                 } else {
+     
+                     print("error updating user \(error!.localizedDescription)")
+     
+                 }
+             }
+         }
 }
 
 
@@ -130,15 +149,11 @@ extension MapViewController: CLLocationManagerDelegate {
 
     //Стартовая локация
     func locationManager(_ manager: CLLocationManager,
-        didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.first else {
-            return
-        }
+                         didUpdateLocations locations: [CLLocation]) {
+        guard let lat = mapView.myLocation?.coordinate.latitude,
+            let lng = mapView.myLocation?.coordinate.longitude else {return}
 
-        let loc = location.coordinate
-
-        mapView.camera = GMSCameraPosition(target: loc, zoom: 17, bearing: 0, viewingAngle: 0)
-       
+        mapView.camera = GMSCameraPosition.camera(withLatitude: lat ,longitude: lng , zoom: 17)
         locationManager.stopUpdatingLocation()
     }
   

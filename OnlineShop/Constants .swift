@@ -21,7 +21,7 @@ struct K {
     struct Segues {
         static let toMapVCSegue = "MapSegue"
         static let toSubCategorySegue = "toSubCategory"
-        static let segueToPhoneVCSegue = "toPhone"
+        static let segueToPhoneVCSegue = "toPhoneVC"
         static let segueTotCapchaVCSegue = "toCapchaVC"
         static let toAddItemSegue = "toAddItem"
     }
@@ -44,6 +44,7 @@ struct K {
         static let price = "price"
         static let imageLinks = "imageLinks"
         static let itemWeith = "itemWeith"
+        static let favorite = "toFavorite"
         
         //Basket
         static let ownerID = "ownerID"

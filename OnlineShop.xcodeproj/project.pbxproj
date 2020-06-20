@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4928BF1F2486B71200616000 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4928BF1E2486B71200616000 /* AccountViewController.swift */; };
 		4928BF212486B72500616000 /* PhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4928BF202486B72500616000 /* PhoneViewController.swift */; };
-		4928BF232486B73000616000 /* CapchaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4928BF222486B73000616000 /* CapchaViewController.swift */; };
 		492AAEC72487FC0B0048348D /* tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AAEC62487FC0B0048348D /* tests.swift */; };
 		49301EBE248ED2E400517FAE /* SubClassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49301EBD248ED2E400517FAE /* SubClassVC.swift */; };
 		49301EC3248ED40000517FAE /* SubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49301EC1248ED40000517FAE /* SubCell.swift */; };
@@ -21,6 +20,9 @@
 		493E599324826B26001CA5EE /* MainCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E599124826B26001CA5EE /* MainCVCell.swift */; };
 		493E599424826B26001CA5EE /* MainCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 493E599224826B26001CA5EE /* MainCVCell.xib */; };
 		493E599624859026001CA5EE /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E599524859026001CA5EE /* MapViewController.swift */; };
+		494D4002249DFDEE0069DE38 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D4001249DFDEE0069DE38 /* EditProfileViewController.swift */; };
+		494D4004249E17680069DE38 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D4003249E17680069DE38 /* FavoriteViewController.swift */; };
+		494D4006249E4A060069DE38 /* FavoriteItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D4005249E4A060069DE38 /* FavoriteItems.swift */; };
 		498AC423248CED9F00332E2C /* FirebaseCollectionReferense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498AC422248CED9F00332E2C /* FirebaseCollectionReferense.swift */; };
 		4994E802249537420064DDCD /* Basket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4994E801249537420064DDCD /* Basket.swift */; };
 		4994E80424953F4C0064DDCD /* BasketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4994E80324953F4C0064DDCD /* BasketViewController.swift */; };
@@ -45,7 +47,6 @@
 /* Begin PBXFileReference section */
 		4928BF1E2486B71200616000 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		4928BF202486B72500616000 /* PhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneViewController.swift; sourceTree = "<group>"; };
-		4928BF222486B73000616000 /* CapchaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapchaViewController.swift; sourceTree = "<group>"; };
 		492AAEC62487FC0B0048348D /* tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tests.swift; sourceTree = "<group>"; };
 		49301EBD248ED2E400517FAE /* SubClassVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubClassVC.swift; sourceTree = "<group>"; };
 		49301EC1248ED40000517FAE /* SubCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCell.swift; sourceTree = "<group>"; };
@@ -57,6 +58,9 @@
 		493E599124826B26001CA5EE /* MainCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCVCell.swift; sourceTree = "<group>"; };
 		493E599224826B26001CA5EE /* MainCVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainCVCell.xib; sourceTree = "<group>"; };
 		493E599524859026001CA5EE /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		494D4001249DFDEE0069DE38 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		494D4003249E17680069DE38 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
+		494D4005249E4A060069DE38 /* FavoriteItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteItems.swift; sourceTree = "<group>"; };
 		498AC422248CED9F00332E2C /* FirebaseCollectionReferense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseCollectionReferense.swift; sourceTree = "<group>"; };
 		4994E801249537420064DDCD /* Basket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Basket.swift; sourceTree = "<group>"; };
 		4994E80324953F4C0064DDCD /* BasketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketViewController.swift; sourceTree = "<group>"; };
@@ -153,7 +157,8 @@
 				493E599524859026001CA5EE /* MapViewController.swift */,
 				4928BF1E2486B71200616000 /* AccountViewController.swift */,
 				4928BF202486B72500616000 /* PhoneViewController.swift */,
-				4928BF222486B73000616000 /* CapchaViewController.swift */,
+				494D4001249DFDEE0069DE38 /* EditProfileViewController.swift */,
+				494D4003249E17680069DE38 /* FavoriteViewController.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -173,6 +178,7 @@
 				49301EC5248FA29900517FAE /* Item.swift */,
 				4994E801249537420064DDCD /* Basket.swift */,
 				4994E80524981F500064DDCD /* Users.swift */,
+				494D4005249E4A060069DE38 /* FavoriteItems.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -353,7 +359,6 @@
 				49301EC3248ED40000517FAE /* SubCell.swift in Sources */,
 				4928BF1F2486B71200616000 /* AccountViewController.swift in Sources */,
 				49301EC8248FA91400517FAE /* AddItemViewController.swift in Sources */,
-				4928BF232486B73000616000 /* CapchaViewController.swift in Sources */,
 				4994E802249537420064DDCD /* Basket.swift in Sources */,
 				49301EBE248ED2E400517FAE /* SubClassVC.swift in Sources */,
 				49CED84B24927F88001EA4A0 /* Download.swift in Sources */,
@@ -366,11 +371,14 @@
 				49CED8512493736B001EA4A0 /* ImageCollectionViewCell.swift in Sources */,
 				493E599624859026001CA5EE /* MapViewController.swift in Sources */,
 				49E37C2F24805B500039A992 /* Category.swift in Sources */,
+				494D4006249E4A060069DE38 /* FavoriteItems.swift in Sources */,
 				49E37C0F248031480039A992 /* AppDelegate.swift in Sources */,
 				4994E80624981F500064DDCD /* Users.swift in Sources */,
+				494D4004249E17680069DE38 /* FavoriteViewController.swift in Sources */,
 				49E37C11248031480039A992 /* SceneDelegate.swift in Sources */,
 				498AC423248CED9F00332E2C /* FirebaseCollectionReferense.swift in Sources */,
 				4928BF212486B72500616000 /* PhoneViewController.swift in Sources */,
+				494D4002249DFDEE0069DE38 /* EditProfileViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
