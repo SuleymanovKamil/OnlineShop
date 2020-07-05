@@ -1,4 +1,2 @@
 # OnlineShop
-# OnlineShop
-# OnlineShop
-# OnlineShop
+This test app for local grocery delievery
