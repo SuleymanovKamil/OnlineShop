@@ -12,7 +12,9 @@ import Foundation
 
 
 struct K {
-    
+    static let algoliaApi = "enter your key"
+    static let algoliaSearchKey = "enter your key"
+    static let algoliaAdminKey = "enter your key"
     static let fireStorageURL = "enter your key"
     static let mainScreenCatalogCell = "MainCell"
     static let subCell = "subCell"
