@@ -1,2 +1,2 @@
 # OnlineShop
-This test app for local grocery delievery
+This is test app for local grocery delievery
