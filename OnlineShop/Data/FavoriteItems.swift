@@ -7,11 +7,13 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 class Favoriteitems {
     var id: String!
     var ownerId: String!
     var itemIds: [String]!
+    var favoriteItems: [String]!
     
     init() {
     }
@@ -19,50 +21,51 @@ class Favoriteitems {
     init(_dictionary: NSDictionary) {
         id = _dictionary[K.FireBase.objectID] as? String
         ownerId = _dictionary[K.FireBase.ownerID] as? String
-        itemIds = _dictionary[K.FireBase.itemID] as? [String]
+        itemIds = _dictionary[K.FireBase.itemIDs] as? [String]
+        favoriteItems = _dictionary[K.FireBase.favorite] as? [String]
     }
 }
-
-//MARK: - Download items
-func downloadFavotiteItemsFromFirestore(_ ownerId: String, completion: @escaping (_ items: Favoriteitems?)-> Void) {
-    
-    FirebaseReference(.FavoriteItems).whereField(K.FireBase.ownerID, isEqualTo: ownerId).getDocuments { (snapshot, error) in
+    //MARK: - Download items
+    func downloadFavoriteItemsFromFirestore(_ ownerId: String, completion: @escaping (_ favItems: Favoriteitems?)-> Void) {
         
-        guard let snapshot = snapshot else {
+        FirebaseReference(.FavoriteItems).whereField(K.FireBase.ownerID, isEqualTo: ownerId).getDocuments { (snapshot, error) in
             
-            completion(nil)
-            return
+            guard let snapshot = snapshot else {
+                
+                completion(nil)
+                return
+            }
+            
+            if !snapshot.isEmpty && snapshot.documents.count > 0 {
+                let favItems = Favoriteitems(_dictionary: snapshot.documents.first!.data() as NSDictionary)
+                completion(favItems)
+            } else {
+                completion(nil)
+            }
         }
+    }
+
+
+    //MARK: - Save to Firebase
+    func saveFavItemsToFirestore(_ favItems: Favoriteitems) {
         
-        if !snapshot.isEmpty && snapshot.documents.count > 0 {
-            let favotiteItems = Favoriteitems(_dictionary: snapshot.documents.first!.data() as NSDictionary)
-            completion(favotiteItems)
-        } else {
-            completion(nil)
+        FirebaseReference(.FavoriteItems).document(favItems.id).setData(favItemsDictionaryFrom(favItems) as! [String: Any])
+    }
+
+
+    //MARK: Helper functions
+
+    func favItemsDictionaryFrom(_ favItems: Favoriteitems) -> NSDictionary {
+        
+        return NSDictionary(objects: [favItems.id as Any, favItems.ownerId as Any, favItems.itemIds as Any, favItems.favoriteItems as Any], forKeys: [K.FireBase.objectID as NSCopying, K.FireBase.ownerID as NSCopying, K.FireBase.itemIDs as NSCopying, K.FireBase.favorite as NSCopying])
+    }
+
+    //MARK: - Update favItems
+    func updateFavItemsInFirestore(_ favItems: Favoriteitems, withValues: [String : Any], completion: @escaping (_ error: Error?) -> Void) {
+        
+        
+        FirebaseReference(.FavoriteItems).document(favItems.id).updateData(withValues) { (error) in
+            completion(error)
         }
     }
-}
 
-
-//MARK: - Save to Firebase
-func saveFavoriteItemsToFirestore(_ favoriteItems: Favoriteitems) {
-    
-    FirebaseReference(.FavoriteItems).document(favoriteItems.id).setData(favoriteItemsDictionaryFrom(favoriteItems) as! [String: Any])
-}
-
-
-//MARK: Helper functions
-
-func favoriteItemsDictionaryFrom(_ favoriteItems: Favoriteitems) -> NSDictionary {
-    
-    return NSDictionary(objects: [favoriteItems.id as Any, favoriteItems.ownerId as Any, favoriteItems.itemIds as Any], forKeys: [K.FireBase.objectID as NSCopying, K.FireBase.ownerID as NSCopying, K.FireBase.itemID as NSCopying])
-}
-
-//MARK: - Update items
-func updateFavoriteItemsInFirestore(_ favotiteItems: Favoriteitems, withValues: [String : Any], completion: @escaping (_ error: Error?) -> Void) {
-
-
-    FirebaseReference(.FavoriteItems).document(favotiteItems.id).updateData(withValues) { (error) in
-        completion(error)
-    }
-}

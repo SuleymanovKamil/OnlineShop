@@ -12,11 +12,13 @@ class MainScreenCollectionView: UICollectionViewController{
     
     //MARK: - IBOutlet
     @IBOutlet weak var mainCategories: UICollectionView!
-    
+
     //MARK: Vars
     var categoryArray: [Category] = []
     static var mainAdress = "Указать адрес доставки"
-    
+    var itemsInBasket = 0
+    var basket: Basket?
+
     //MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,15 +31,63 @@ class MainScreenCollectionView: UICollectionViewController{
 //            print ("Complete")
 //        }
         loadCategories()
+        changetitle()
+
      }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: false)
         self.collectionView.reloadData()
         updateUserAddress()
+        if User.currentUser() != nil {
+            loadBasketFromFirestore()
+        }
     }
     
+    func changetitle() {
+ 
+        let button =  UIButton(type: .custom)
+        button.setImage(UIImage(named: "basket"), for: .normal)
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        button.frame = CGRect(x: 0.0, y: 0.0, width: 5, height: 5)
+        button.contentMode = .scaleAspectFit
+        let menuBarItem = UIBarButtonItem(customView: button)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+        currHeight?.isActive = true
+        let label = UILabel(frame: CGRect(x: 26, y: -5, width: 50, height: 20))// set position of label
+        label.font = UIFont(name: "Arial-BoldMT", size: 14)// add font and size of label
+        if User.currentUser() != nil && itemsInBasket > 0 {
+            label.text = String(itemsInBasket)
+        }
+        label.textAlignment = .left
+        label.textColor = UIColor.red
+        label.backgroundColor =   UIColor.clear
+        button.addSubview(label)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItem = barButton
 
+ 
+    }
+    
+    @objc func buttonAction () {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let dvc = storyboard.instantiateViewController(withIdentifier: "BasketViewController") as! BasketViewController
+        dvc.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(dvc, animated: true)
+    }
+    
+    private func loadBasketFromFirestore() {
+        
+        downloadBasketFromFirestore(User.currentId()) { (basket) in
+            
+            self.basket = basket
+            self.itemsInBasket = basket!.dic.keys.count
+            self.changetitle()
+        }
+    }
+//MARK: - Address
     func updateUserAddress() {
         if User.currentUser() != nil {
             let currentUser = User.currentUser()!
@@ -45,7 +95,8 @@ class MainScreenCollectionView: UICollectionViewController{
         }
         
     }
-    //MARK: Download categories
+    
+//MARK: Download categories
     private func loadCategories() {
         
         downloadCategories {(allCategories) in
@@ -55,16 +106,16 @@ class MainScreenCollectionView: UICollectionViewController{
         }
     }
     
-    //hide navBar while scrolling
-       override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-           let height = scrollView.contentOffset.y
-           if height > 70 {
-               navBarButtonsApper ()
-           } else if height < 700  {
-               // TODO: add methods for this
-               navigationItem.leftBarButtonItem = nil
-           }
-       }
+//    //hide navBar while scrolling
+//       override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//           let height = scrollView.contentOffset.y
+//           if height > 70 {
+//               navBarButtonsApper ()
+//           } else if height < 700  {
+//               // TODO: add methods for this
+//               navigationItem.leftBarButtonItem = nil
+//           }
+//       }
     //MARK: - CollectionView methods
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return categoryArray.count
@@ -106,6 +157,7 @@ class MainScreenCollectionView: UICollectionViewController{
         @IBAction  func unwindToMainScreen (segue: UIStoryboardSegue){
             UserDefaults.standard.set(MainScreenCollectionView.mainAdress, forKey: "delievertAdress")
         }
+ 
 }
 
 //MARK: - Extension for CollectionViewLayout Delegate
@@ -140,18 +192,18 @@ extension MainScreenCollectionView: UICollectionViewDelegateFlowLayout {
 
 //MARK: - Кнопка поиска в навбаре
     func navBarButtonsApper () {
-        
-        let searchButton = UIButton(type: .system)
-        searchButton.setImage(UIImage(named: "search"), for: .normal)
-        searchButton.frame = CGRect(x: 0.0, y: 0.0, width: 5, height: 5)
-        let menuBarItem = UIBarButtonItem(customView: searchButton)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
-        currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
-        currHeight?.isActive = true
-        searchButton.contentMode = .scaleAspectFit
-        searchButton.tintColor = .black
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: searchButton)
+//
+//        let searchButton = UIButton(type: .system)
+//        searchButton.setImage(UIImage(named: "search"), for: .normal)
+//        searchButton.frame = CGRect(x: 0.0, y: 0.0, width: 5, height: 5)
+//        let menuBarItem = UIBarButtonItem(customView: searchButton)
+//        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
+//        currWidth?.isActive = true
+//        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+//        currHeight?.isActive = true
+//        searchButton.contentMode = .scaleAspectFit
+//        searchButton.tintColor = .black
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: searchButton)
     }
 }
 

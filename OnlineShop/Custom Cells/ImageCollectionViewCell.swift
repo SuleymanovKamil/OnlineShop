@@ -14,14 +14,9 @@ class ImageCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        activityIndicatorLabel.startAnimating()
         activityIndicatorLabel.hidesWhenStopped = true
     }
     func setupImageWith(itemImage: UIImage) {
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { 
-            self.activityIndicatorLabel.stopAnimating()
-        }
         imageLabel.image = itemImage
     }
 }

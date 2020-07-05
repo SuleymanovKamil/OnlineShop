@@ -16,7 +16,7 @@ class AccountViewController: UITableViewController {
     @IBOutlet var historyOutlet: UIButton!
     @IBOutlet var editButton: UIButton!
     @IBOutlet var favorite: UIButton!
-    
+    @IBOutlet var warningLabel: UILabel!
     
     //MARK: - View Lifecycle
     
@@ -24,6 +24,7 @@ class AccountViewController: UITableViewController {
         super.viewDidLoad()
 //        navigationController?.setNavigationBarHidden(true, animated: true)
     }
+    
 //Проверяем залогинился ли пользователь
         override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(true)
@@ -49,9 +50,6 @@ class AccountViewController: UITableViewController {
         }
         
       }
-
-    @IBAction func exitButton(_ sender: UIButton) {
-    }
     
     @IBAction func unwindToAccount(_ unwindSegue: UIStoryboardSegue) {
        
@@ -70,6 +68,7 @@ class AccountViewController: UITableViewController {
             editButton.isEnabled = true
             favorite.alpha = 1
             favorite.isEnabled = true
+            warningLabel.isHidden = true
         } else {
             authOutlet.setTitle("Войти в аккаунт", for: .normal)
             historyOutlet.alpha = 0.5

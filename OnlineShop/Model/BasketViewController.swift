@@ -8,6 +8,7 @@
 
 import UIKit
 import JGProgressHUD
+import Firebase
 
 class BasketViewController: UIViewController {
 
@@ -23,25 +24,24 @@ class BasketViewController: UIViewController {
     var basket: Basket?
     var allItems: [Item] = []
     var purchasedItemIds : [String] = []
-
     let hud = JGProgressHUD(style: .dark)
-  
+    var quantity = 1
+    var totalPrice = 0.0
+    
     //MARK: - View Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "SubCell", bundle: nil), forCellReuseIdentifier: K.subCell)
         tableView.tableFooterView = footerView
-        
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
         
-        //TODO: Check if user is logged in
-        
+        if User.currentUser() != nil {
         loadBasketFromFirestore()
-
+        } else {
+            self.updateTotalLabels(true)
+        }
     }
     
     //MARK: - IBActions
@@ -50,32 +50,31 @@ class BasketViewController: UIViewController {
         
         
     }
-    
     //MARK: - Download basket
     private func loadBasketFromFirestore() {
-        
-        downloadBasketFromFirestore("1234") { (basket) in
+
+        downloadBasketFromFirestore(User.currentId()) { (basket) in
             
             self.basket = basket
             self.getBasketItems()
+
         }
     }
-    
     private func getBasketItems() {
         
         if basket != nil {
-            
-            downloadItems(basket!.itemIds) { (allItems) in
-                
+            if basket?.dic != nil {
+            downloadItems(basket!.dic.keys) { (allItems) in
                 self.allItems = allItems
                 self.updateTotalLabels(false)
                 self.tableView.reloadData()
+                }
             }
         }
     }
 
 //MARK: - Helper functions
-    
+
     private func updateTotalLabels(_ isEmpty: Bool) {
         
         if isEmpty {
@@ -91,16 +90,18 @@ class BasketViewController: UIViewController {
 
     }
     
-    private func returnBasketTotalPrice() -> String {
+ private func returnBasketTotalPrice() -> String {
+       
+        totalPrice = 0.0
         
-        var totalPrice = 0.0
-        
-        for item in allItems {
-            totalPrice += item.price * Double(basket!.quantity)
+        for item in allItems{
+            totalPrice += item.price * Double((basket?.dic[item.id])!)
+
         }
-        
+
         return "Итого: " + convertToCurrency(totalPrice)
     }
+    
 
     //MARK: - Navigation
     private func showItemView(withItem: Item) {
@@ -129,16 +130,24 @@ class BasketViewController: UIViewController {
     
     private func removeItemFromBasket (itemId: String) {
         
-        for i in 0..<basket!.itemIds.count {
-            
-            if itemId == basket!.itemIds[i]{
-                basket!.itemIds.remove(at: i)
-                return
+        if (basket?.dic) != nil {
+            var newBasketDic = basket!.dic
+            newBasketDic!.removeValue(forKey: itemId)
+            basket?.dic = newBasketDic
             }
+        
+        }
+    
+}
+    private func updateBasket(basket: Basket, withValues: [String : Any]) {
+        updateBasketInFirestore(basket, withValues: withValues) { (error) in
+        if error != nil {
+            print("error updating basket", error!.localizedDescription)
+            } else {
         }
     }
+    
 }
-
 //MARK: - tableView extension
 extension BasketViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -150,9 +159,40 @@ extension BasketViewController: UITableViewDataSource, UITableViewDelegate {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: K.subCell, for: indexPath) as! SubCell
         cell.generateCell(allItems[indexPath.row])
+        cell.stackViewLabel.isHidden = false
+        cell.descriptionLabel.isHidden = true
+        if allItems[indexPath.row].itemQuantity != 0 {
+        cell.quantityLabel.text = String(basket!.dic[allItems[indexPath.row].id]!)
+        }
         
+        for _ in allItems {
+            allItems[indexPath.row].itemQuantity = Int(basket!.dic[allItems[indexPath.row].id]!)
+        }
+        
+        cell.minus = {
+            self.allItems[indexPath.row].itemQuantity -= 1
+            self.basket!.dic[self.allItems[indexPath.row].id] = self.allItems[indexPath.row].itemQuantity
+            if self.allItems[indexPath.row].itemQuantity == 0 {
+                let itemToDelete = self.allItems[indexPath.row]
+                self.allItems.remove(at: indexPath.row)
+                self.removeItemFromBasket(itemId: itemToDelete.id)
+            }
+            updateBasket(basket: self.basket!, withValues: [K.FireBase.dic : self.basket!.dic!])
+            self.updateTotalLabels(false)
+            self.tableView.reloadData()
+        }
+
+        cell.plus = {
+            self.allItems[indexPath.row].itemQuantity += 1
+            self.basket!.dic[self.allItems[indexPath.row].id] = self.allItems[indexPath.row].itemQuantity
+            updateBasket(basket: self.basket!, withValues: [K.FireBase.dic : self.basket!.dic!])
+            self.updateTotalLabels(false)
+            self.tableView.reloadData()
+        }
+
         return cell
     }
+    
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
@@ -163,14 +203,13 @@ extension BasketViewController: UITableViewDataSource, UITableViewDelegate {
         if editingStyle == .delete {
             let itemToDelete = allItems[indexPath.row]
             allItems.remove(at: indexPath.row)
-            tableView.reloadData()
-            
             removeItemFromBasket(itemId: itemToDelete.id)
-            updateBasketInFirestore(basket!, withValues: [K.FireBase.itemID : basket!.itemIds as Any]) { (error) in
+            updateBasketInFirestore(basket!, withValues: [K.FireBase.dic : basket!.dic as Any]) { (error) in
                 if error != nil {
                     print ("Error while updating basket", error?.localizedDescription as Any)
                 }
                 self.getBasketItems()
+                tableView.reloadData()
             }
         }
     }

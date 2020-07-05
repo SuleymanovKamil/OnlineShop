@@ -48,8 +48,9 @@ struct K {
         
         //Basket
         static let ownerID = "ownerID"
-        static let itemID = "itemID"
+        static let itemIDs = "itemID"
         static let quantity = "quantity"
+        static let dic = "dictionary"
         
         //Users
         static let userPhoneNumber = "userPhoneNumber"

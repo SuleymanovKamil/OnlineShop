@@ -19,10 +19,10 @@ class SubClassVC: UITableViewController {
         super.viewDidLoad()
         navigationItem.title = category?.name
         tableView.register(UINib(nibName: "SubCell", bundle: nil), forCellReuseIdentifier: K.subCell)
+        tableView.tableFooterView = UIView() //удаляем неиспользуемые ячейки
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
         
         if category != nil {
             loadItems()

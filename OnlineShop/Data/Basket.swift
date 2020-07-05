@@ -12,17 +12,16 @@ class Basket {
     
     var id: String!
     var ownerId: String!
-    var itemIds: [String]!
-    var quantity: Int!
-    
+    var dic: [String: Int]!
+ 
     init() {
     }
     
     init(_dictionary: NSDictionary) {
         id = _dictionary[K.FireBase.objectID] as? String
         ownerId = _dictionary[K.FireBase.ownerID] as? String
-        itemIds = _dictionary[K.FireBase.itemID] as? [String]
-        quantity = _dictionary[K.FireBase.quantity] as? Int
+        dic = _dictionary[K.FireBase.dic] as? [String : Int]
+
     }
 }
 
@@ -33,7 +32,7 @@ func downloadBasketFromFirestore(_ ownerId: String, completion: @escaping (_ bas
     FirebaseReference(.Basket).whereField(K.FireBase.ownerID, isEqualTo: ownerId).getDocuments { (snapshot, error) in
         
         guard let snapshot = snapshot else {
-            
+
             completion(nil)
             return
         }
@@ -59,7 +58,7 @@ func saveBasketToFirestore(_ basket: Basket) {
 
 func basketDictionaryFrom(_ basket: Basket) -> NSDictionary {
     
-    return NSDictionary(objects: [basket.id as Any, basket.ownerId as Any, basket.itemIds as Any, basket.quantity as Any], forKeys: [K.FireBase.objectID as NSCopying, K.FireBase.ownerID as NSCopying, K.FireBase.itemID as NSCopying, K.FireBase.quantity as NSCopying])
+    return NSDictionary(objects: [basket.id as Any, basket.ownerId as Any, basket.dic as Any], forKeys: [K.FireBase.objectID as NSCopying, K.FireBase.ownerID as NSCopying, K.FireBase.dic as NSCopying])
 }
 
 //MARK: - Update basket

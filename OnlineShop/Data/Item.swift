@@ -21,6 +21,7 @@ class Item {
     var itemWeith: String!
     
     init() {
+   
     }
     
     init(_dictionary: NSDictionary) {
@@ -33,7 +34,6 @@ class Item {
         imageLinks = _dictionary[K.FireBase.imageLinks] as? [String]
         itemQuantity = _dictionary[K.FireBase.quantity] as? Int
         itemWeith = _dictionary[K.FireBase.itemWeith] as? String
-
     }
 }
 
@@ -78,7 +78,7 @@ func downloadItemsFromFirebase(_ withCategoryId: String, completion: @escaping (
     
 }
 
-func downloadItems(_ withIds: [String], completion: @escaping (_ itemArray: [Item]) -> Void) {
+func downloadItems(_ withIds: Dictionary<String, Int>.Keys, completion: @escaping (_ itemArray: [Item]) -> Void) {
     
     var count = 0
     var itemArray: [Item] = []
@@ -113,6 +113,7 @@ func downloadItems(_ withIds: [String], completion: @escaping (_ itemArray: [Ite
         completion (itemArray)
     }
 }
+
 
 
 
