@@ -13,7 +13,7 @@ import Foundation
 
 struct K {
     
-    static let fireStorageURL = "gs://onlineshop-e24bb.appspot.com"
+    static let fireStorageURL = "enter your key"
     static let mainScreenCatalogCell = "MainCell"
     static let subCell = "subCell"
     static let itemCell = "itemCell"
